@@ -1,0 +1,7 @@
+{
+  "name": "prex-movies-app",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
