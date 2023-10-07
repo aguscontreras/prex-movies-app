@@ -11,4 +11,8 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./folder/folder.page').then((m) => m.FolderPage),
   },
+  {
+    path: 'pre-home',
+    loadComponent: () => import('./pre-home/pre-home.page').then( m => m.PreHomePage)
+  },
 ];
