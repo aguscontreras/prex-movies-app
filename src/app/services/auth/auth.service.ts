@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthTokens, SignUpReq, User } from '../../models';
-import { Observable, exhaustMap, tap } from 'rxjs';
+import { EMPTY, Observable, catchError, exhaustMap, tap } from 'rxjs';
 import { UserService } from '../user';
 import { Router } from '@angular/router';
+import { ToastService } from '../toast';
 
 @Injectable({
   providedIn: 'root',
@@ -24,6 +25,7 @@ export class AuthService {
     private readonly http: HttpClient,
     private readonly userService: UserService,
     private readonly router: Router,
+    private readonly toastService: ToastService,
   ) {}
 
   signIn(email: string, password: string): Observable<User> {
@@ -33,13 +35,22 @@ export class AuthService {
     return this.http.post<AuthTokens>(url, body, this.httpOptions).pipe(
       tap((tokens) => (this.tokens = tokens)),
       exhaustMap(() => this.userService.fetchUser(email)),
+      catchError((error) => {
+        this.toastService.showDanger({ message: error.message });
+        return EMPTY;
+      }),
     );
   }
 
   signUp(body: SignUpReq): Observable<User> {
     const url = `${this.apiUrl}/register`;
 
-    return this.http.post<User>(url, body, this.httpOptions);
+    return this.http.post<User>(url, body, this.httpOptions).pipe(
+      catchError((error) => {
+        this.toastService.showDanger({ message: error.message });
+        return EMPTY;
+      }),
+    );
   }
 
   signOut() {
@@ -54,8 +65,12 @@ export class AuthService {
 
   refreshToken(): Observable<AuthTokens> {
     const url = `${this.apiUrl}/refresh`;
-    return this.http
-      .get<AuthTokens>(url, this.httpOptions)
-      .pipe(tap((tokens) => (this.tokens = tokens)));
+    return this.http.get<AuthTokens>(url, this.httpOptions).pipe(
+      tap((tokens) => (this.tokens = tokens)),
+      catchError((error) => {
+        this.toastService.showDanger({ message: error.message });
+        return EMPTY;
+      }),
+    );
   }
 }
