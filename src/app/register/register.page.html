@@ -51,15 +51,17 @@
         [errorText]="email.errors?.['required'] ? 'Email is required' : 'Invalid email'"
       ></ion-input>
 
-      <ion-input
-        class="ion-margin-bottom"
-        type="password"
-        fill="outline"
-        label="Password"
-        labelPlacement="stacked"
-        formControlName="password"
-        [errorText]="password.errors?.['required'] ? 'Password is required' : 'Invalid password'"
-      ></ion-input>
+      <app-password-toggler>
+        <ion-input
+          class="ion-margin-bottom"
+          type="password"
+          fill="outline"
+          label="Password"
+          labelPlacement="stacked"
+          formControlName="password"
+          [errorText]="password.errors?.['required'] ? 'Password is required' : 'Invalid password'"
+        ></ion-input>
+      </app-password-toggler>
 
       <ion-text color="medium">
         <small> Password must contain at least: </small>

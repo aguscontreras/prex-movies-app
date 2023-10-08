@@ -13,6 +13,7 @@ import { AuthService, ToastService } from '../services';
 import { SignUpReq } from '../models';
 import { switchMap } from 'rxjs';
 import { Router } from '@angular/router';
+import { PasswordTogglerComponent } from '../shared';
 
 @Component({
   selector: 'app-register',
@@ -26,6 +27,7 @@ import { Router } from '@angular/router';
     FormsModule,
     ReactiveFormsModule,
     LogoComponent,
+    PasswordTogglerComponent,
   ],
 })
 export class RegisterPage {
