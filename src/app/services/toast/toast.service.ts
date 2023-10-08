@@ -11,17 +11,25 @@ export class ToastService {
     color: 'primary',
   };
 
+  private toast?: HTMLIonToastElement;
+
   constructor(private toastController: ToastController) {}
 
   async show(options: ToastOptions): Promise<HTMLIonToastElement> {
-    const toast = await this.toastController.create({
+    try {
+      this.toastController.dismiss();
+    } catch (error) {
+      console.error(error);
+    }
+
+    this.toast = await this.toastController.create({
       ...this.basicToastOptions,
       ...options,
     });
 
-    await toast.present();
+    this.toast.present();
 
-    return toast;
+    return this.toast;
   }
 
   async showDanger(options: ToastOptions): Promise<HTMLIonToastElement> {
