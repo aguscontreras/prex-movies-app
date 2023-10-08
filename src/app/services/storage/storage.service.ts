@@ -4,6 +4,7 @@ import { Storage } from '@ionic/storage-angular';
 export enum StorageKeys {
   User = 'user',
   Movies = 'movies',
+  Tokens = 'tokens',
 }
 
 @Injectable({
@@ -21,12 +22,17 @@ export class StorageService {
     this._storage = storage;
   }
 
-  public async set<T>(key: StorageKeys, value: T): Promise<any> {
-    return await this._storage?.set(key, value);
+  public async set<T>(key: StorageKeys, value: T): Promise<T> {
+    await this._storage?.set(key, value);
+    return value;
   }
 
   public async get<T>(key: StorageKeys): Promise<T | undefined> {
     return await this.storage?.get(key);
+  }
+
+  public async remove(key: StorageKeys) {
+    return await this.storage?.remove(key);
   }
 
   public async clear() {
