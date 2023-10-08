@@ -3,6 +3,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
+import { LoaderService } from './services';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -26,5 +27,8 @@ export class AppComponent {
     { title: 'Spam', url: '/folder/spam', icon: 'warning' },
   ];
   public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
-  constructor() {}
+
+  loading$ = this.loaderService.loading$;
+
+  constructor(private readonly loaderService: LoaderService) {}
 }
