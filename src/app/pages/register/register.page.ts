@@ -14,6 +14,7 @@ import { SignUpReq } from '../../models';
 import { switchMap } from 'rxjs';
 import { Router } from '@angular/router';
 import { PasswordTogglerComponent } from '../../shared';
+import { PASSWORD_REGEX } from '../../core';
 
 @Component({
   selector: 'app-register',
@@ -46,15 +47,7 @@ export class RegisterPage {
       firstname: ['', Validators.required],
       lastname: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      password: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern(
-            '^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$',
-          ),
-        ],
-      ],
+      password: ['', [Validators.required, Validators.pattern(PASSWORD_REGEX)]],
     });
   }
 
