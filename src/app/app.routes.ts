@@ -4,16 +4,17 @@ export const routes: Routes = [
   {
     path: 'pre-home',
     loadComponent: () =>
-      import('./pre-home/pre-home.page').then((m) => m.PreHomePage),
+      import('./pages/pre-home/pre-home.page').then((m) => m.PreHomePage),
   },
   {
     path: 'login',
-    loadComponent: () => import('./login/login.page').then((m) => m.LoginPage),
+    loadComponent: () =>
+      import('./pages/login/login.page').then((m) => m.LoginPage),
   },
   {
     path: 'register',
     loadComponent: () =>
-      import('./register/register.page').then((m) => m.RegisterPage),
+      import('./pages/register/register.page').then((m) => m.RegisterPage),
   },
   {
     path: '',
