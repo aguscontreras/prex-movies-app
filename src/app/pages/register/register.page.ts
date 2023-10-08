@@ -20,7 +20,6 @@ import { PasswordTogglerComponent } from '../../shared';
   templateUrl: './register.page.html',
   styleUrls: ['./register.page.scss'],
   standalone: true,
-  providers: [AuthService, ToastService, UserService],
   imports: [
     IonicModule,
     CommonModule,
