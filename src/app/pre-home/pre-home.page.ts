@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
-import { LogoComponent } from '../shared/logo/logo.component';
+import { LogoComponent } from '../shared/components/logo/logo.component';
 
 @Component({
   selector: 'app-pre-home',

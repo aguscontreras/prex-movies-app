@@ -8,7 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { LogoComponent } from '../shared/logo/logo.component';
+import { LogoComponent } from '../shared/components/logo/logo.component';
 import { AuthService, ToastService } from '../services';
 import { SignUpReq } from '../models';
 import { switchMap } from 'rxjs';
