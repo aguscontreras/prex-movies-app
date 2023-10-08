@@ -2,17 +2,22 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
-    path: '',
-    redirectTo: 'folder/inbox',
-    pathMatch: 'full',
-  },
-  {
-    path: 'folder/:id',
-    loadComponent: () =>
-      import('./folder/folder.page').then((m) => m.FolderPage),
-  },
-  {
     path: 'pre-home',
-    loadComponent: () => import('./pre-home/pre-home.page').then( m => m.PreHomePage)
+    loadComponent: () =>
+      import('./pre-home/pre-home.page').then((m) => m.PreHomePage),
+  },
+  {
+    path: 'login',
+    loadComponent: () => import('./login/login.page').then((m) => m.LoginPage),
+  },
+  {
+    path: 'register',
+    loadComponent: () =>
+      import('./register/register.page').then((m) => m.RegisterPage),
+  },
+  {
+    path: '',
+    redirectTo: 'pre-home',
+    pathMatch: 'full',
   },
 ];
