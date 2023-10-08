@@ -1,2 +1,3 @@
 export * from './auth';
-export * from './toast/toast.service';
+export * from './toast';
+export * from './user';

@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { SignUpReq, User } from '../../models';
-import { Observable } from 'rxjs';
+import { AuthTokens, SignUpReq, User } from '../../models';
+import { Observable, exhaustMap } from 'rxjs';
+import { UserService } from '../user';
 
 @Injectable({
   providedIn: 'root',
@@ -16,13 +17,18 @@ export class AuthService {
     }),
   };
 
-  constructor(private readonly http: HttpClient) {}
+  constructor(
+    private readonly http: HttpClient,
+    private readonly userService: UserService,
+  ) {}
 
-  signIn(email: string, password: string) {
+  signIn(email: string, password: string): Observable<User> {
     const url = `${this.apiUrl}/login`;
     const body = { email, password };
 
-    return this.http.post(url, body, this.httpOptions);
+    return this.http
+      .post<AuthTokens>(url, body, this.httpOptions)
+      .pipe(exhaustMap(() => this.userService.fetchUser(email)));
   }
 
   signUp(body: SignUpReq): Observable<User> {
