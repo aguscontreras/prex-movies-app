@@ -1,0 +1,102 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Sign Up</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Sign Up</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <app-logo></app-logo>
+
+  <section class="ion-padding">
+    <ion-text color="primary" class="ion-text-center subtitle">
+      <h3 class="inner-text">
+        Get ready to enjoy the best of cinema with Prex Movies
+      </h3>
+    </ion-text>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <ion-input
+        class="ion-margin-bottom"
+        type="text"
+        fill="outline"
+        label="Firstname"
+        labelPlacement="stacked"
+        formControlName="firstname"
+        errorText="Firstname is required"
+      ></ion-input>
+
+      <ion-input
+        class="ion-margin-bottom"
+        type="text"
+        fill="outline"
+        label="Lastname"
+        labelPlacement="stacked"
+        formControlName="lastname"
+        errorText="Lastname is required"
+      ></ion-input>
+
+      <ion-input
+        class="ion-margin-bottom"
+        type="text"
+        fill="outline"
+        label="Email"
+        labelPlacement="stacked"
+        formControlName="email"
+        [errorText]="email.errors?.['required'] ? 'Email is required' : 'Invalid email'"
+      ></ion-input>
+
+      <ion-input
+        class="ion-margin-bottom"
+        type="password"
+        fill="outline"
+        label="Password"
+        labelPlacement="stacked"
+        formControlName="password"
+        [errorText]="password.errors?.['required'] ? 'Password is required' : 'Invalid password'"
+      ></ion-input>
+
+      <ion-text color="medium">
+        <small> Password must contain at least: </small>
+      </ion-text>
+
+      <ul>
+        <li
+          [class]="passworValidation.hasUppercase ? 'text-success' : 'text-medium'"
+        >
+          <small>1 uppercase character</small>
+        </li>
+        <li
+          [class]="passworValidation.hasLowercase ? 'text-success' : 'text-medium'"
+        >
+          <small>1 lowercase character</small>
+        </li>
+        <li
+          [class]="passworValidation.hasNumber ? 'text-success' : 'text-medium'"
+        >
+          <small>1 number</small>
+        </li>
+        <li
+          [class]="passworValidation.isLongEnough ? 'text-success' : 'text-medium'"
+        >
+          <small>8 characters long</small>
+        </li>
+      </ul>
+
+      <ion-button
+        type="submit"
+        expand="block"
+        fill="solid"
+        shape="round"
+        color="primary"
+      >
+        Create account
+      </ion-button>
+    </form>
+  </section>
+</ion-content>
