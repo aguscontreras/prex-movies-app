@@ -1,13 +1,29 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>preHome</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div class="wrapper">
+    <app-logo></app-logo>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">preHome</ion-title>
-    </ion-toolbar>
-  </ion-header>
+    <ion-text color="dark" class="ion-text-center ion-margin">
+      <h1>Prex Movies</h1>
+    </ion-text>
+
+    <ion-button
+      expand="block"
+      fill="solid"
+      shape="round"
+      class="ion-margin-bottom"
+      [routerLink]="'/login'"
+    >
+      Login
+    </ion-button>
+
+    <ion-button
+      expand="block"
+      fill="solid"
+      shape="round"
+      color="secondary"
+      [routerLink]="'/register'"
+    >
+      Sign up
+    </ion-button>
+  </div>
 </ion-content>
