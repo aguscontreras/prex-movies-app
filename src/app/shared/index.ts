@@ -1,1 +1,2 @@
-export * from './components/logo/logo.component';
+export * from './components/logo';
+export * from './components/password-toggler';
