@@ -1,5 +1,3 @@
 export * from './constants';
-export * from './interceptors/auth';
-export * from './interceptors/error-handler';
+export * from './guards';
 export * from './interceptors';
-export * from './interceptors/loader';

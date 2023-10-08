@@ -28,6 +28,10 @@ export class AuthService {
     private readonly toastService: ToastService,
   ) {}
 
+  get isUserLoggedIn() {
+    return !!this.tokens;
+  }
+
   signIn(email: string, password: string): Observable<User> {
     const url = `${this.apiUrl}/login`;
     const body = { email, password };
