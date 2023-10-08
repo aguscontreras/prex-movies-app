@@ -1,4 +1,5 @@
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
@@ -7,7 +8,13 @@ import { IonicModule } from '@ionic/angular';
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
   standalone: true,
-  imports: [IonicModule, RouterLink, RouterLinkActive, CommonModule],
+  imports: [
+    IonicModule,
+    RouterLink,
+    RouterLinkActive,
+    CommonModule,
+    HttpClientModule,
+  ],
 })
 export class AppComponent {
   public appPages = [
