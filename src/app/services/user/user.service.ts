@@ -29,4 +29,8 @@ export class UserService {
       .get<User>(url, this.httpOptions)
       .pipe(tap((user) => this.currentUser.next(user)));
   }
+
+  removeUser() {
+    this.currentUser.next(undefined);
+  }
 }
