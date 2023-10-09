@@ -4,9 +4,8 @@ import {
   HttpHandler,
   HttpEvent,
   HttpInterceptor,
-  HttpErrorResponse,
 } from '@angular/common/http';
-import { Observable, catchError, retry, switchMap, throwError } from 'rxjs';
+import { EMPTY, Observable, catchError, switchMap, throwError } from 'rxjs';
 import { AuthService } from '../../../services';
 
 @Injectable()
@@ -17,7 +16,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(
     request: HttpRequest<unknown>,
-    next: HttpHandler,
+    next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
     const tokens = this.authService.getTokens();
 
@@ -33,7 +32,7 @@ export class AuthInterceptor implements HttpInterceptor {
       return next
         .handle(requestClone)
         .pipe(
-          catchError((err) => this.handleAuthError(err, requestClone, next)),
+          catchError((err) => this.handleAuthError(err, requestClone, next))
         );
     }
 
@@ -43,13 +42,19 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 
   private handleAuthError(
-    err: HttpErrorResponse,
+    err: any,
     request: HttpRequest<unknown>,
-    next: HttpHandler,
+    next: HttpHandler
   ) {
-    if (err.status === 401 || err.status === 403) {
+    if (err.statusCode === 401 || err.statusCode === 403) {
+      if (this.isRefreshing) {
+        this.authService.signOut();
+        return EMPTY;
+      }
+
+      this.isRefreshing = true;
+
       return this.authService.refreshToken().pipe(
-        retry(3),
         switchMap(({ access_token, refresh_token }) => {
           this.isRefreshing = false;
 
@@ -60,12 +65,7 @@ export class AuthInterceptor implements HttpInterceptor {
           });
 
           return next.handle(requestClone);
-        }),
-        catchError((err) => {
-          this.isRefreshing = false;
-          this.authService.signOut();
-          return throwError(() => err);
-        }),
+        })
       );
     }
 

@@ -2,11 +2,12 @@ import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../services';
 
-export const authGuard = () => {
+export const authGuard = async () => {
   const authService = inject(AuthService);
   const router = inject(Router);
+  const tokens = await authService.retrieveTokensFromStorage();
 
-  if (authService.isUserLoggedIn) {
+  if (tokens) {
     return true;
   }
 
