@@ -2,7 +2,16 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { EMPTY, Observable, catchError, concatMap, from, tap } from 'rxjs';
+import {
+  EMPTY,
+  Observable,
+  catchError,
+  concatMap,
+  exhaustMap,
+  from,
+  map,
+  tap,
+} from 'rxjs';
 import { UserService } from '../user';
 import { ToastService } from '../toast';
 import { AuthTokens, SignUpReq, User } from '../../models';
@@ -68,7 +77,7 @@ export class AuthService {
     await this.userService.removeUser();
     await this.storageService.remove(StorageKeys.Tokens);
     this.tokens = undefined;
-    this.router.navigate(['/login']);
+    this.router.navigate(['/pre-home']);
   }
 
   getTokens(): AuthTokens | undefined {
@@ -78,26 +87,36 @@ export class AuthService {
   refreshToken(): Observable<AuthTokens> {
     const url = `${this.apiUrl}/refresh`;
 
-    return this.http.get<AuthTokens>(url, this.httpOptions).pipe(
-      tap((tokens) => (this.tokens = tokens)),
-      catchError((error) => {
-        this.toastService.showDanger({ message: error.message });
-        return EMPTY;
+    return this.userService.currentUser$.pipe(
+      exhaustMap((user) => {
+        const body = {
+          email: user?.email,
+          userId: user?.id,
+        };
+
+        return this.http.post<AuthTokens>(url, body, this.httpOptions).pipe(
+          exhaustMap((tokens) =>
+            from(this.storageService.set(StorageKeys.Tokens, tokens))
+          ),
+          tap((tokens) => (this.tokens = tokens)),
+          catchError((error) => {
+            this.toastService.showDanger({ message: error.message });
+            return EMPTY;
+          })
+        );
       })
     );
   }
 
   async retrieveTokensFromStorage() {
     try {
-      const tokens = await this.storageService.get<AuthTokens>(
+      this.tokens = await this.storageService.get<AuthTokens>(
         StorageKeys.Tokens
       );
-
-      if (!!tokens) {
-        this.tokens = tokens;
-      }
+      return this.tokens;
     } catch (error) {
       this.signOut();
+      return undefined;
     }
   }
 }
