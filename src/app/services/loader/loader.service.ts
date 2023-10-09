@@ -10,7 +10,6 @@ export class LoaderService {
 
   toggleLoader() {
     const loading = this.loading.value;
-    console.log(loading);
     this.loading.next(!loading);
   }
 }
