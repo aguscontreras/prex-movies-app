@@ -3,7 +3,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
-import { LoaderService } from './services';
+import { AuthService, LoaderService } from './services';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -19,16 +19,18 @@ import { LoaderService } from './services';
 })
 export class AppComponent {
   public appPages = [
-    { title: 'Inbox', url: '/folder/inbox', icon: 'mail' },
-    { title: 'Outbox', url: '/folder/outbox', icon: 'paper-plane' },
-    { title: 'Favorites', url: '/folder/favorites', icon: 'heart' },
-    { title: 'Archived', url: '/folder/archived', icon: 'archive' },
-    { title: 'Trash', url: '/folder/trash', icon: 'trash' },
-    { title: 'Spam', url: '/folder/spam', icon: 'warning' },
+    { title: 'Movies', url: '/home', icon: 'videocam' },
+    { title: 'Profile', url: '/profile', icon: 'person' },
   ];
-  public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
 
   loading$ = this.loaderService.loading$;
 
-  constructor(private readonly loaderService: LoaderService) {}
+  constructor(
+    private readonly loaderService: LoaderService,
+    private readonly authService: AuthService
+  ) {}
+
+  onSignOut() {
+    this.authService.signOut();
+  }
 }
