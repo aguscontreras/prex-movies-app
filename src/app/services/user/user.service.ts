@@ -7,13 +7,13 @@ import {
   catchError,
   exhaustMap,
   from,
-  switchMap,
   tap,
 } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { StorageKeys, StorageService } from '../storage';
 import { ToastService } from '../toast/toast.service';
 import { User } from '../../models';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -34,7 +34,8 @@ export class UserService {
   constructor(
     private http: HttpClient,
     private readonly storageService: StorageService,
-    private readonly toastService: ToastService
+    private readonly toastService: ToastService,
+    private router: Router
   ) {
     this.retrieveUserFromStorage();
   }
@@ -65,6 +66,7 @@ export class UserService {
 
       if (!!user) {
         this.currentUser.next(user);
+        this.router.navigate(['/home']);
       }
     } catch (error) {
       this.currentUser.next(undefined);
