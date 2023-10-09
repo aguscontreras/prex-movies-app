@@ -5,6 +5,7 @@ export enum StorageKeys {
   User = 'user',
   Movies = 'movies',
   Tokens = 'tokens',
+  MoviesPage = 'moviesPage',
 }
 
 @Injectable({
