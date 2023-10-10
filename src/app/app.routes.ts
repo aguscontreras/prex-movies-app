@@ -1,5 +1,10 @@
 import { Routes } from '@angular/router';
-import { authGuard, authLoginGuard } from './core';
+import {
+  authGuard,
+  authLoginGuard,
+  moviesResolver,
+  selectedMovieResolver,
+} from './core';
 
 export const routes: Routes = [
   {
@@ -30,5 +35,14 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./pages/home/home.page').then((m) => m.HomePage),
     canActivate: [authGuard],
+    resolve: [moviesResolver],
   },
+  {
+    path: 'details/:id',
+    loadComponent: () =>
+      import('./pages/details/details.page').then((m) => m.DetailsPage),
+    canActivate: [authGuard],
+    resolve: [selectedMovieResolver],
+  },
+  { path: '**', redirectTo: 'pre-home' },
 ];
