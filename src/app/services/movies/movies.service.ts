@@ -3,9 +3,11 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {
   BehaviorSubject,
   EMPTY,
+  Observable,
   catchError,
   exhaustMap,
   from,
+  map,
   tap,
 } from 'rxjs';
 import { ToastService } from '../toast';
@@ -27,7 +29,11 @@ export class MoviesService {
 
   private movies = new BehaviorSubject<Movie[]>([]);
 
+  private selectedMovie = new BehaviorSubject<Movie | undefined>(undefined);
+
   movies$ = this.movies.asObservable();
+
+  selectedMovie$ = this.selectedMovie.asObservable();
 
   constructor(
     private http: HttpClient,
@@ -37,7 +43,7 @@ export class MoviesService {
     this.retrieveMoviesFromStorage();
   }
 
-  getMovies() {
+  getMovies(): Observable<Movie[]> {
     const url = this.apiUrl;
     let page = 1;
 
@@ -62,6 +68,21 @@ export class MoviesService {
         this.toastService.showDanger({ message: error.message });
         return EMPTY;
       })
+    );
+  }
+
+  getMovie(id: number): Observable<Movie | undefined> {
+    return from(this.storageService.get<Movie[]>(StorageKeys.Movies)).pipe(
+      map((movies) => movies?.find((movie) => movie.id === id)),
+      map((movie) => {
+        if (!movie) {
+          throw new Error('An error occurred while getting the movie details.');
+        }
+
+        return movie;
+      }),
+      tap((movie) => this.selectedMovie.next(movie)),
+      catchError(() => EMPTY)
     );
   }
 
