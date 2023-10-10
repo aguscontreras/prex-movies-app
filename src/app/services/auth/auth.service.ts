@@ -74,8 +74,8 @@ export class AuthService {
   }
 
   async signOut() {
+    await this.storageService.clear();
     await this.userService.removeUser();
-    await this.storageService.remove(StorageKeys.Tokens);
     this.tokens = undefined;
     this.router.navigate(['/pre-home']);
   }
