@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { MoviesListComponent } from '../../shared';
-import { MoviesService } from '../../services';
-import { finalize, take } from 'rxjs';
 import { Router } from '@angular/router';
+import { finalize } from 'rxjs';
+import { MoviesService } from '../../services';
+import { MoviesListComponent } from '../../shared';
 import { Movie } from '../../models';
 
 @Component({
@@ -15,7 +15,7 @@ import { Movie } from '../../models';
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, MoviesListComponent],
 })
-export class HomePage implements OnInit {
+export class HomePage {
   movies$ = this.moviesService.movies$;
 
   constructor(
@@ -23,23 +23,15 @@ export class HomePage implements OnInit {
     private router: Router
   ) {}
 
-  ngOnInit() {
-    this.getMovies();
-  }
-
   getMovies(event?: any) {
-    this.moviesService
-      .getMovies()
-      .pipe(
-        take(1),
-        finalize(() => {
-          event?.target?.complete();
-        })
-      )
-      .subscribe();
+    this.movies$ = this.moviesService.getMovies().pipe(
+      finalize(() => {
+        event?.target?.complete();
+      })
+    );
   }
 
   editMovie(movie: Movie) {
-    this.router.navigate([`/movie/${movie.id}`]);
+    this.router.navigate([`/details/${movie.id}`]);
   }
 }
