@@ -64,12 +64,15 @@ export class UserService {
     try {
       const user = await this.storageService.get<User>(StorageKeys.User);
 
-      if (!!user) {
-        this.currentUser.next(user);
-        this.router.navigate(['/home']);
+      if (!user) {
+        throw new Error('[User service] User not found in storage.');
       }
+
+      this.currentUser.next(user);
     } catch (error) {
       this.currentUser.next(undefined);
+      await this.storageService.clear();
+      this.router.navigate(['/pre-home']);
     }
   }
 }
