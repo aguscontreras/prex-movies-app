@@ -1,0 +1,28 @@
+.rating {
+  ion-icon {
+    font-size: 1.5em;
+  }
+}
+
+.title {
+  h1 {
+    font-weight: 700;
+  }
+}
+
+.movie-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.description {
+  width: 100%;
+  border-radius: 8px;
+  line-height: 1.5rem;
+  background-color: var(--ion-color-light);
+}
+
+ion-card {
+  box-shadow: none;
+}

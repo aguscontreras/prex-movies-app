@@ -1,20 +1,102 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
+      <ion-back-button defaultHref="/home"></ion-back-button>
     </ion-buttons>
-    <ion-title>Details</ion-title>
+    <ion-buttons slot="end">
+      <ion-button id="button-delete">
+        <ion-icon slot="icon-only" name="trash" color="dark"></ion-icon>
+      </ion-button>
+      <ion-button (click)="onEdit()">
+        <ion-icon
+          slot="icon-only"
+          name="create-outline"
+          color="dark"
+        ></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Details</ion-title>
-    </ion-toolbar>
+    <ion-toolbar></ion-toolbar>
   </ion-header>
 
-  <pre>
-    {{ movie$ | async | json }}
-  </pre>
+  <section *ngIf="movie$ | async as movie; else empty">
+    <div class="title ion-padding">
+      <ion-text color="dark">
+        <h1>{{ movie.title }}</h1>
+      </ion-text>
+    </div>
+
+    <div class="cover">
+      <ion-img [src]="movie.coverUrl"></ion-img>
+    </div>
+
+    <div class="ion-padding">
+      <div class="movie-info">
+        <div class="rating">
+          <ion-icon
+            *ngFor="let star of starsCount; let i = index"
+            color="primary"
+            [name]="getRating(i, movie.rating)"
+          ></ion-icon>
+        </div>
+
+        <div class="date">
+          <ion-text> {{movie.releaseDate | date}} </ion-text>
+        </div>
+      </div>
+
+      <div class="description ion-padding ion-text-center ion-margin-vertical">
+        <ion-text>{{ movie.description }}</ion-text>
+      </div>
+
+      <div class="genres">
+        <ion-chip *ngFor="let genre of movie.genres" color="primary"
+          >{{ genre }}</ion-chip
+        >
+      </div>
+    </div>
+  </section>
+
+  <ng-template #empty>
+    <ion-card class="ion-margin-vertical" color="light">
+      <ion-card-header>
+        <ion-card-title>
+          <ion-text color="danger">
+            <h1>Oops!</h1>
+          </ion-text>
+        </ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        We have not found the movie you are looking for. Please, go to the Home
+        page and try selecting another movie.
+      </ion-card-content>
+    </ion-card>
+
+    <div class="ion-text-center">
+      <ion-button
+        color="primary"
+        fill="clear"
+        class="ion-text-center"
+        [routerLink]="'/home'"
+      >
+        <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
+        <ion-label>Back to home</ion-label>
+      </ion-button>
+    </div>
+  </ng-template>
+
+  <ng-container *ngIf="movie$ | async as movie">
+    <ion-alert
+      trigger="button-delete"
+      header="Deleting movie"
+      subHeader="Are you sure you want to delete {{movie.title}}?"
+      message="This action can't be undone"
+      [buttons]="alertButtons"
+    ></ion-alert>
+  </ng-container>
 </ion-content>
