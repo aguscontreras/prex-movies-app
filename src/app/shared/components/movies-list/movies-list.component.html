@@ -12,7 +12,10 @@
     <div
       slot="start"
       class="cover-wrapper"
-      [style]="'background-image: url(' + movie.coverUrl + ')'"
+      [ngStyle]="{
+        'background-image':
+          'url(' + movie.coverUrl + '), url(' + imgFallback + ')'
+      }"
     ></div>
     <div class="info-wrapper ion-padding-left ion-padding-vertical">
       <ion-text class="title">

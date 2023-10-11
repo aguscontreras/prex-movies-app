@@ -23,7 +23,7 @@ export class DetailsPage {
 
   movie$ = this.moviesService.selectedMovie$;
 
-  public alertButtons: AlertButton[] = [
+  alertButtons: AlertButton[] = [
     {
       text: 'Cancel',
       role: 'cancel',
@@ -34,6 +34,8 @@ export class DetailsPage {
       handler: () => this.deleteMovie(),
     },
   ];
+
+  imgFallback = '/assets/img/img-fallback.png';
 
   constructor(
     private readonly moviesService: MoviesService,
@@ -111,5 +113,9 @@ export class DetailsPage {
 
   getRating(index: number, rating: number) {
     return index + 1 <= rating ? 'star' : 'star-outline';
+  }
+
+  onImgError(movie: Movie) {
+    movie.coverUrl = this.imgFallback;
   }
 }

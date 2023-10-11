@@ -17,6 +17,8 @@ export class MoviesListComponent {
 
   @Output() edit = new EventEmitter<Movie>();
 
+  imgFallback = '/assets/img/img-fallback-mini.png';
+
   readonly starsCount = Array(5);
 
   getRating(index: number, rating: number) {
