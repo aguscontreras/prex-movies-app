@@ -1,0 +1,92 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="onDismiss()">Cancel</ion-button>
+    </ion-buttons>
+    <ion-title>Edit movie</ion-title>
+    <ion-buttons slot="end">
+      <ion-button type="submit" form="form" [strong]="true">Save</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" id="form">
+    <ion-input
+      type="text"
+      class="ion-margin-bottom"
+      label="Title"
+      labelPlacement="stacked"
+      formControlName="title"
+      errorText="Title is required"
+    ></ion-input>
+
+    <ion-item class="rating ion-margin-bottom" detail="false">
+      <ion-label position="stacked">Rating</ion-label>
+      <div class="ion-padding-top">
+        <ion-button
+          *ngFor="let star of starsCount; let i = index"
+          fill="clear"
+          class="rating-button"
+          (click)="rating.setValue(i + 1)"
+        >
+          <ion-icon
+            slot="icon-only"
+            color="primary"
+            [name]="getRating(i, rating.value)"
+          ></ion-icon>
+        </ion-button>
+      </div>
+    </ion-item>
+
+    <ion-input
+      id="release-date"
+      type="text"
+      class="ion-margin-bottom"
+      label="Relase date"
+      labelPlacement="stacked"
+      formControlName="releaseDate"
+      errorText="Release date is required"
+      readonly
+    ></ion-input>
+
+    <ion-item class="genres ion-margin-bottom" detail="false">
+      <ion-select
+        label="Genre"
+        labelPlacement="stacked"
+        formControlName="genres"
+        [multiple]="true"
+      >
+        <ion-select-option *ngFor="let genre of genres" [value]="genre">{{
+          genre
+        }}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-textarea
+      class="ion-margin-bottom"
+      label="Description"
+      labelPlacement="stacked"
+      formControlName="description"
+      [autoGrow]="true"
+      errorText="Description is required"
+    ></ion-textarea>
+  </form>
+
+  <ion-modal
+    [keepContentsMounted]="true"
+    trigger="release-date"
+    class="floating"
+    [showBackdrop]="true"
+    [backdropDismiss]="false"
+  >
+    <ng-template>
+      <ion-datetime
+        id="datetime"
+        presentation="date"
+        [showDefaultButtons]="true"
+        [formControl]="releaseDate"
+        (ionChange)="onDateChange($event)"
+      ></ion-datetime>
+    </ng-template>
+  </ion-modal>
+</ion-content>

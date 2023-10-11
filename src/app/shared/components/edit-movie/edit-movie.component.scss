@@ -1,0 +1,11 @@
+ion-item {
+  &::part(native) {
+    --padding-start: 0;
+  }
+
+  .rating-button {
+    font-size: 20px;
+    --padding-end: 8px;
+    --padding-start: 8px;
+  }
+}
