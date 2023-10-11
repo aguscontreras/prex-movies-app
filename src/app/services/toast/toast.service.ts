@@ -17,22 +17,24 @@ export class ToastService {
 
   async show(options: ToastOptions): Promise<HTMLIonToastElement> {
     try {
-      this.toastController.dismiss();
-    } catch (error) {
-      console.error(error);
-    }
+      await this.toastController.dismiss();
+    } catch (error) {}
 
     this.toast = await this.toastController.create({
       ...this.basicToastOptions,
       ...options,
     });
 
-    this.toast.present();
+    await this.toast.present();
 
     return this.toast;
   }
 
   async showDanger(options: ToastOptions): Promise<HTMLIonToastElement> {
     return this.show({ color: 'danger', ...options });
+  }
+
+  async showSuccess(options: ToastOptions): Promise<HTMLIonToastElement> {
+    return this.show({ color: 'success', ...options });
   }
 }
