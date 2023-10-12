@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router, RouterModule } from '@angular/router';
 import { AlertButton, IonicModule, ModalController } from '@ionic/angular';
-import { switchMap, take, combineLatest, NEVER } from 'rxjs';
+import { switchMap, take, combineLatest, NEVER, tap } from 'rxjs';
 import { MoviesService, ToastService } from '../../services';
 import { EditMovieComponent } from '../../shared';
 import { Movie } from '../../models';
@@ -47,24 +47,18 @@ export class DetailsPage {
   deleteMovie() {
     this.movie$
       .pipe(
-        switchMap((movie) => {
-          if (movie) {
-            return this.moviesService.deleteMovie(movie.id);
-          } else {
-            throw new Error('Movie not found');
-          }
-        }),
+        take(1),
+        switchMap((movie) =>
+          movie ? this.moviesService.deleteMovie(movie.id) : NEVER
+        ),
+        tap(() =>
+          this.toastService.showSuccess({
+            message: 'Movie deleted successfully',
+          })
+        ),
         takeUntilDestroyed(this.destroyRef)
       )
-      .subscribe({
-        next: async () => {
-          const toast = await this.toastService.showSuccess({
-            message: 'Movie deleted successfully',
-          });
-          await toast.onDidDismiss();
-          this.router.navigate(['/home']);
-        },
-      });
+      .subscribe(() => this.router.navigate(['/home']));
   }
 
   onEdit() {
@@ -78,26 +72,20 @@ export class DetailsPage {
           if (movie) {
             return this.openEditModal(movie, genres);
           } else {
-            throw new Error('Movie not found');
+            return NEVER;
           }
         }),
-        switchMap((result) => {
-          if (result.role === 'submit') {
-            const movieData: Movie = result.data.movie;
-            return this.moviesService.updateMovie(movieData);
-          }
-
-          return NEVER;
-        }),
+        switchMap(({ data: movie }) =>
+          movie ? this.moviesService.updateMovie(movie) : NEVER
+        ),
+        tap(() =>
+          this.toastService.showSuccess({
+            message: 'Movie updated successfully',
+          })
+        ),
         takeUntilDestroyed(this.destroyRef)
       )
-      .subscribe({
-        next: async () => {
-          await this.toastService.showSuccess({
-            message: 'Movie updated successfully',
-          });
-        },
-      });
+      .subscribe();
   }
 
   async openEditModal(movie: Movie, genres: string[]) {
@@ -106,9 +94,9 @@ export class DetailsPage {
       componentProps: { movie, genres },
     });
 
-    modal.present();
+    await modal.present();
 
-    return modal.onDidDismiss();
+    return modal.onDidDismiss<Movie>();
   }
 
   getRating(index: number, rating: number) {
