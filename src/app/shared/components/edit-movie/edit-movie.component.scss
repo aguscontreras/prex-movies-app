@@ -1,6 +1,7 @@
 ion-item {
   &::part(native) {
     --padding-start: 0;
+    --background: transparent;
   }
 
   .rating-button {
