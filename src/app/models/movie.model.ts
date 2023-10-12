@@ -6,4 +6,5 @@ export interface Movie {
   coverUrl: string;
   id: number;
   rating: number;
+  coverBase64?: string | ArrayBuffer;
 }

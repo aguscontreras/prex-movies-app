@@ -31,7 +31,10 @@
     </div>
 
     <div class="cover">
-      <ion-img [src]="movie.coverUrl" (ionError)="onImgError(movie)"></ion-img>
+      <ion-img
+        [src]="movie.coverBase64"
+        (ionError)="onImgError(movie)"
+      ></ion-img>
     </div>
 
     <div class="ion-padding">

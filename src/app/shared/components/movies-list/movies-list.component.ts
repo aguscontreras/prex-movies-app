@@ -37,4 +37,8 @@ export class MoviesListComponent {
   getMovieId(index: number, item: { id: number }) {
     return item.id;
   }
+
+  onImgError(movie: Movie) {
+    movie.coverBase64 = this.imgFallback;
+  }
 }

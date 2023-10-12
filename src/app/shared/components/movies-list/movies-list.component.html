@@ -9,14 +9,12 @@
     [button]="true"
     (click)="onSelectMovie(movie)"
   >
-    <div
-      slot="start"
-      class="cover-wrapper"
-      [ngStyle]="{
-        'background-image':
-          'url(' + movie.coverUrl + '), url(' + imgFallback + ')'
-      }"
-    ></div>
+    <div slot="start" class="cover-wrapper">
+      <ion-img
+        [src]="movie.coverBase64"
+        (ionError)="onImgError(movie)"
+      ></ion-img>
+    </div>
     <div class="info-wrapper ion-padding-left ion-padding-vertical">
       <ion-text class="title">
         <p class="ion-no-margin">{{ movie.title }}</p>

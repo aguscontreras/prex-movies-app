@@ -116,6 +116,6 @@ export class DetailsPage {
   }
 
   onImgError(movie: Movie) {
-    movie.coverUrl = this.imgFallback;
+    movie.coverBase64 = this.imgFallback;
   }
 }
