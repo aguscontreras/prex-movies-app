@@ -32,7 +32,7 @@
 
     <div class="cover">
       <ion-img
-        [src]="movie.coverBase64"
+        [src]="movie.coverBase64 ?? imgFallback"
         (ionError)="onImgError(movie)"
       ></ion-img>
     </div>

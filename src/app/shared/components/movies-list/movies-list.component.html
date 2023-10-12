@@ -11,7 +11,7 @@
   >
     <div slot="start" class="cover-wrapper">
       <ion-img
-        [src]="movie.coverBase64"
+        [src]="movie.coverBase64 ?? imgFallback"
         (ionError)="onImgError(movie)"
       ></ion-img>
     </div>
