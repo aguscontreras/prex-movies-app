@@ -13,7 +13,7 @@ import { Movie } from '../../../models';
   imports: [IonicModule, ReactiveFormsModule, CommonModule],
 })
 export class EditMovieComponent implements OnInit {
-  movie!: Movie;
+  movie?: Movie;
 
   genres: string[] = [];
 
@@ -28,7 +28,7 @@ export class EditMovieComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.patchForm(this.movie);
+    if (this.movie) this.patchForm(this.movie);
   }
 
   initForm() {
@@ -70,6 +70,10 @@ export class EditMovieComponent implements OnInit {
   }
 
   async onSubmit() {
+    if (!this.movie) {
+      throw new Error('[Edit movie] Movie not found.');
+    }
+
     if (this.form.invalid) {
       this.form.markAllAsTouched();
 
@@ -82,7 +86,7 @@ export class EditMovieComponent implements OnInit {
 
     const movie: Movie = { ...this.movie, ...this.form.value };
 
-    await this.modalController.dismiss({ movie }, 'submit');
+    await this.modalController.dismiss(movie, 'submit');
   }
 
   onDateChange(event: any) {
