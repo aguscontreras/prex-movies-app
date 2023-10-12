@@ -134,8 +134,9 @@ export class MoviesService {
 
   updateMovie(updatedMovie: Movie): Observable<Movie> {
     const url = `${this.apiUrl}/${updatedMovie.id}`;
+    const { coverBase64, ...movie } = updatedMovie;
 
-    return this.http.put<Movie>(url, updatedMovie, this.httpOptions).pipe(
+    return this.http.put<Movie>(url, movie, this.httpOptions).pipe(
       concatMap((movie) => this.updateMovieLocal(movie)),
       tap((movie) => this.selectedMovie.next(movie)),
       catchError((error) => {
