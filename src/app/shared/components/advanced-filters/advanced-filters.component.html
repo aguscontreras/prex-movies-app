@@ -1,0 +1,44 @@
+<div class="ion-padding">
+  <ion-item class="rating ion-margin-bottom" detail="false" lines="none">
+    <ion-label position="stacked">Rating</ion-label>
+    <div class="ion-padding-top">
+      <ion-button
+        *ngFor="let star of starsCount; let i = index"
+        fill="clear"
+        class="rating-button"
+        (click)="rating.setValue(i + 1)"
+      >
+        <ion-icon
+          slot="icon-only"
+          color="primary"
+          [name]="getRating(i, rating.value)"
+        ></ion-icon>
+      </ion-button>
+    </div>
+  </ion-item>
+
+  <ion-text color="dark">
+    <p>Genre/s</p>
+  </ion-text>
+
+  <div class="genres-wrapper ion-padding">
+    <ion-button
+      *ngFor="let genre of genres$ | async"
+      (click)="toggleGenre(genre)"
+      [fill]="genres.value.includes(genre) ? 'solid' : 'outline'"
+      shape="round"
+      size="small"
+    >
+      {{ genre }}
+    </ion-button>
+  </div>
+
+  <ion-toolbar>
+    <ion-buttons slot="secondary" (click)="clearFilters()">
+      <ion-button>Clear filters</ion-button>
+    </ion-buttons>
+    <ion-buttons slot="primary" (click)="onSubmit()">
+      <ion-button>Accept and close</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</div>

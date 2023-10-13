@@ -1,0 +1,23 @@
+ion-popover.date-picker {
+  --width: 300px;
+}
+
+ion-item {
+  &::part(native) {
+    --padding-start: 0;
+    background: transparent;
+  }
+}
+
+.genres-wrapper {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  background-color: var(--ion-color-light);
+  border-radius: 8px;
+}
+
+p {
+  font-size: 12px;
+}

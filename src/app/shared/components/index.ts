@@ -1,3 +1,4 @@
+export * from './advanced-filters';
 export * from './edit-movie';
 export * from './logo';
 export * from './movies-list';
