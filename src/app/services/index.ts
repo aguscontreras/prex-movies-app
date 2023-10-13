@@ -1,4 +1,5 @@
 export * from './auth';
+export * from './filters';
 export * from './loader';
 export * from './movies';
 export * from './storage';
