@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ModalController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs';
-import { MoviesService } from '../../services';
+import { FiltersService, MoviesService } from '../../services';
 import { MoviesListComponent } from '../../shared';
 import { Movie } from '../../models';
 import { FilterMoviePipe } from '../../pipes';
+import { AdvancedFiltersComponent } from '../../shared';
 
 @Component({
   selector: 'app-home',
@@ -25,11 +26,15 @@ import { FilterMoviePipe } from '../../pipes';
 export class HomePage {
   movies$ = this.moviesService.movies$;
 
-  filter = '';
+  advancedFilters$ = this.filtersService.filters$;
+
+  title = '';
 
   constructor(
     private readonly moviesService: MoviesService,
-    private router: Router
+    private readonly filtersService: FiltersService,
+    private router: Router,
+    private modalController: ModalController
   ) {}
 
   getMovies(event?: any) {
@@ -42,5 +47,14 @@ export class HomePage {
 
   editMovie(movie: Movie) {
     this.router.navigate([`/details/${movie.id}`]);
+  }
+
+  async showAdvancedFilters() {
+    const modal = await this.modalController.create({
+      component: AdvancedFiltersComponent,
+      cssClass: 'floating',
+    });
+
+    await modal.present();
   }
 }

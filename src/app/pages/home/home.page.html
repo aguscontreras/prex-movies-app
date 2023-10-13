@@ -18,11 +18,20 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <ion-searchbar show-clear-button="focus" [(ngModel)]="filter"></ion-searchbar>
+  <ion-item lines="none" detail="false">
+    <ion-searchbar
+      show-clear-button="focus"
+      [(ngModel)]="title"
+    ></ion-searchbar>
+
+    <ion-button slot="end" fill="none" (click)="showAdvancedFilters()">
+      <ion-icon slot="icon-only" name="filter"></ion-icon>
+    </ion-button>
+  </ion-item>
 
   <main class="ion-padding">
     <app-movies-list
-      [movies]="movies$ | async | filterMovie:filter"
+      [movies]="movies$ | async | filterMovie:title:(advancedFilters$|async)"
       (edit)="editMovie($event)"
     ></app-movies-list>
   </main>
