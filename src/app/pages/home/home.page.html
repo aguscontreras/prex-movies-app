@@ -25,7 +25,11 @@
     ></ion-searchbar>
 
     <ion-button slot="end" fill="none" (click)="showAdvancedFilters()">
-      <ion-icon slot="icon-only" name="filter"></ion-icon>
+      <ion-icon
+        slot="icon-only"
+        name="filter"
+        [color]="(filterActive$ | async) ? 'primary' : 'dark'"
+      ></ion-icon>
     </ion-button>
   </ion-item>
 

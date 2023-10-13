@@ -5,9 +5,8 @@ import { IonicModule, ModalController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs';
 import { FiltersService, MoviesService } from '../../services';
-import { MoviesListComponent } from '../../shared';
+import { FilterMoviePipe, MoviesListComponent } from '../../shared';
 import { Movie } from '../../models';
-import { FilterMoviePipe } from '../../pipes';
 import { AdvancedFiltersComponent } from '../../shared';
 
 @Component({
@@ -27,6 +26,8 @@ export class HomePage {
   movies$ = this.moviesService.movies$;
 
   advancedFilters$ = this.filtersService.filters$;
+
+  filterActive$ = this.filtersService.filterActive$;
 
   title = '';
 
