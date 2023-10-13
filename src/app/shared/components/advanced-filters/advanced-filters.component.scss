@@ -1,7 +1,3 @@
-ion-popover.date-picker {
-  --width: 300px;
-}
-
 ion-item {
   &::part(native) {
     --padding-start: 0;
@@ -20,4 +16,8 @@ ion-item {
 
 p {
   font-size: 12px;
+}
+
+ion-toolbar {
+  --background: transparent;
 }
