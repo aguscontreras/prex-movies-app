@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Movie } from '../../models';
-import { AdvancedFilter } from '../../services';
+import { Movie } from '../../../models';
+import { AdvancedFilter } from '../../../services';
 
 @Pipe({
   name: 'filterMovie',
