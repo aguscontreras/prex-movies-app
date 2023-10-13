@@ -18,9 +18,11 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
+  <ion-searchbar show-clear-button="focus" [(ngModel)]="filter"></ion-searchbar>
+
   <main class="ion-padding">
     <app-movies-list
-      [movies]="movies$ | async"
+      [movies]="movies$ | async | filterMovie:filter"
       (edit)="editMovie($event)"
     ></app-movies-list>
   </main>

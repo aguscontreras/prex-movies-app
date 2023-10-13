@@ -7,16 +7,25 @@ import { finalize } from 'rxjs';
 import { MoviesService } from '../../services';
 import { MoviesListComponent } from '../../shared';
 import { Movie } from '../../models';
+import { FilterMoviePipe } from '../../pipes';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, MoviesListComponent],
+  imports: [
+    IonicModule,
+    CommonModule,
+    FormsModule,
+    MoviesListComponent,
+    FilterMoviePipe,
+  ],
 })
 export class HomePage {
   movies$ = this.moviesService.movies$;
+
+  filter = '';
 
   constructor(
     private readonly moviesService: MoviesService,
