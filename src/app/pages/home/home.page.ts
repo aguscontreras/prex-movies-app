@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonicModule, ModalController } from '@ionic/angular';
+import { IonicModule, ModalController, ScrollDetail } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs';
 import { FiltersService, MoviesService } from '../../services';
@@ -31,6 +31,8 @@ export class HomePage {
 
   title = '';
 
+  showFab = false;
+
   constructor(
     private readonly moviesService: MoviesService,
     private readonly filtersService: FiltersService,
@@ -57,5 +59,9 @@ export class HomePage {
     });
 
     await modal.present();
+  }
+
+  handleScroll(ev: CustomEvent<ScrollDetail>) {
+    this.showFab = ev.detail.scrollTop > 115;
   }
 }

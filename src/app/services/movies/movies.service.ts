@@ -79,7 +79,7 @@ export class MoviesService {
       }),
       exhaustMap(async (movies) => {
         if (movies.length > 0) ++page;
-        await this.storageService.set(StorageKeys.MoviesPage, ++page);
+        await this.storageService.set(StorageKeys.MoviesPage, page);
         return movies;
       }),
       tap((movies) => this.movies.next(movies)),
@@ -142,6 +142,8 @@ export class MoviesService {
 
     await this.storageService.set(StorageKeys.Movies, newMovies);
 
+    console.log({ movies: newMovies });
+
     return newMovies ?? [];
   }
 
@@ -187,6 +189,8 @@ export class MoviesService {
     };
 
     await this.storageService.set<Movie[]>(StorageKeys.Movies, allMovies);
+
+    console.log({ movie: updatedMovie, movies: allMovies });
 
     return { movie: updatedMovie, movies: allMovies };
   }

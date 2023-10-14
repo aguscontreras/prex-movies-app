@@ -7,7 +7,12 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content
+  [fullscreen]="true"
+  [scrollEvents]="true"
+  (ionScroll)="handleScroll($any($event))"
+  #content
+>
   <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">Movies</ion-title>
@@ -40,4 +45,16 @@
       (edit)="editMovie($event)"
     ></app-movies-list>
   </main>
+
+  <ion-fab
+    slot="fixed"
+    vertical="bottom"
+    horizontal="end"
+    [hidden]="!showFab"
+    (click)="content.scrollToTop(500)"
+  >
+    <ion-fab-button color="tertiary" size="small">
+      <ion-icon name="chevron-up"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
