@@ -9,7 +9,6 @@ import {
   concatMap,
   exhaustMap,
   from,
-  map,
   tap,
 } from 'rxjs';
 import { UserService } from '../user';
@@ -75,7 +74,6 @@ export class AuthService {
 
   async signOut() {
     await this.storageService.clear();
-    await this.userService.removeUser();
     this.tokens = undefined;
     this.router.navigate(['/pre-home']);
   }

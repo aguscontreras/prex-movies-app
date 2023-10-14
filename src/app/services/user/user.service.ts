@@ -38,6 +38,15 @@ export class UserService {
     private router: Router
   ) {
     this.retrieveUserFromStorage();
+    this.initStorageSubscription();
+  }
+
+  private initStorageSubscription() {
+    this.storageService.onClear$.subscribe((clean) => {
+      if (clean) {
+        this.currentUser.next(undefined);
+      }
+    });
   }
 
   fetchUser(email: string): Observable<User> {
@@ -53,11 +62,6 @@ export class UserService {
         return EMPTY;
       })
     );
-  }
-
-  async removeUser() {
-    this.currentUser.next(undefined);
-    await this.storageService.remove(StorageKeys.User);
   }
 
   async retrieveUserFromStorage() {

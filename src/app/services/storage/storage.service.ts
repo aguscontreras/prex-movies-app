@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
+import { BehaviorSubject } from 'rxjs';
 
 export enum StorageKeys {
   User = 'user',
@@ -14,6 +15,10 @@ export enum StorageKeys {
 })
 export class StorageService {
   private _storage: Storage | null = null;
+
+  private onClear = new BehaviorSubject<boolean>(false);
+
+  onClear$ = this.onClear.asObservable();
 
   constructor(private storage: Storage) {
     this.init();
@@ -39,5 +44,6 @@ export class StorageService {
 
   public async clear() {
     await this.storage?.clear();
+    this.onClear.next(true);
   }
 }

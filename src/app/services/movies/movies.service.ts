@@ -49,6 +49,16 @@ export class MoviesService {
   ) {
     this.retrieveMoviesFromStorage();
     this.retrieveGenresFromStorage();
+    this.initStorageSubscription();
+  }
+
+  private initStorageSubscription() {
+    this.storageService.onClear$.subscribe((clean) => {
+      if (clean) {
+        this.movies.next([]);
+        this.selectedMovie.next(undefined);
+      }
+    });
   }
 
   getMovies(): Observable<Movie[]> {
@@ -140,7 +150,9 @@ export class MoviesService {
 
     return this.http.put<Movie>(url, movie, this.httpOptions).pipe(
       concatMap((movie) => this.updateMovieLocal(movie)),
-      tap((movie) => this.selectedMovie.next(movie)),
+      tap(({ movie }) => this.selectedMovie.next(movie)),
+      tap(({ movies }) => this.movies.next(movies)),
+      map(({ movie }) => movie),
       catchError((error) => {
         this.toastService.showDanger({ message: error.message });
         return EMPTY;
@@ -148,7 +160,10 @@ export class MoviesService {
     );
   }
 
-  private async updateMovieLocal(updatedMovie: Movie): Promise<Movie> {
+  private async updateMovieLocal(updatedMovie: Movie): Promise<{
+    movie: Movie;
+    movies: Movie[];
+  }> {
     const allMovies = await this.storageService.get<Movie[]>(
       StorageKeys.Movies
     );
@@ -172,7 +187,7 @@ export class MoviesService {
 
     await this.storageService.set<Movie[]>(StorageKeys.Movies, allMovies);
 
-    return updatedMovie;
+    return { movie: updatedMovie, movies: allMovies };
   }
 
   getGenres(): Observable<string[]> {
