@@ -35,7 +35,8 @@
 
   <main class="ion-padding">
     <app-movies-list
-      [movies]="movies$ | async | filterMovie:title:(advancedFilters$|async)"
+      *ngIf="movies$ | async as movies"
+      [movies]="movies | filterMovie:title:(advancedFilters$ | async)"
       (edit)="editMovie($event)"
     ></app-movies-list>
   </main>

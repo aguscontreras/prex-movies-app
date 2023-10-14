@@ -1,40 +1,63 @@
-<ion-item-sliding
-  *ngFor="let movie of movies; trackBy: getMovieId"
-  class="ion-margin-bottom"
->
-  <ion-item
-    lines="none"
-    detail="false"
-    color="light"
-    [button]="true"
-    (click)="onSelectMovie(movie)"
+<ng-container *ngIf="movies?.length; else empty">
+  <ion-item-sliding
+    *ngFor="let movie of movies; trackBy: getMovieId"
+    class="ion-margin-bottom"
   >
-    <div slot="start" class="cover-wrapper">
-      <ion-img
-        [src]="movie.coverBase64 ?? imgFallback"
-        (ionError)="onImgError(movie)"
-      ></ion-img>
-    </div>
-    <div class="info-wrapper ion-padding-left ion-padding-vertical">
-      <ion-text class="title">
-        <p class="ion-no-margin">{{ movie.title }}</p>
-      </ion-text>
-      <ion-text class="description">
-        <p class="ion-no-margin">{{ movie.description }}</p>
-      </ion-text>
-      <div class="rating">
-        <ion-icon
-          *ngFor="let star of starsCount; let i = index"
-          color="primary"
-          [name]="getRating(i, movie.rating)"
-        ></ion-icon>
+    <ion-item
+      lines="none"
+      detail="false"
+      color="light"
+      [button]="true"
+      (click)="onSelectMovie(movie)"
+    >
+      <div slot="start" class="cover-wrapper">
+        <ion-img
+          [src]="movie.coverBase64 ?? imgFallback"
+          (ionError)="onImgError(movie)"
+        ></ion-img>
       </div>
-    </div>
-  </ion-item>
+      <div class="info-wrapper ion-padding-left ion-padding-vertical">
+        <ion-text class="title">
+          <p class="ion-no-margin">{{ movie.title }}</p>
+        </ion-text>
+        <ion-text class="description">
+          <p class="ion-no-margin">{{ movie.description }}</p>
+        </ion-text>
+        <div class="rating">
+          <ion-icon
+            *ngFor="let star of starsCount; let i = index"
+            color="primary"
+            [name]="getRating(i, movie.rating)"
+          ></ion-icon>
+        </div>
+      </div>
+    </ion-item>
 
-  <ion-item-options>
-    <ion-item-option color="secondary" (click)="onEditMovie(movie)">
-      <ion-icon slot="icon-only" name="create"></ion-icon>
-    </ion-item-option>
-  </ion-item-options>
-</ion-item-sliding>
+    <ion-item-options>
+      <ion-item-option color="secondary" (click)="onEditMovie(movie)">
+        <ion-icon slot="icon-only" name="create"></ion-icon>
+      </ion-item-option>
+    </ion-item-options>
+  </ion-item-sliding>
+</ng-container>
+
+<ng-template #empty>
+  <ion-card class="ion-margin-vertical" color="light">
+    <ion-card-header>
+      <ion-card-title>
+        <ion-text color="primary">
+          <h1>It's a bit quiet around here...</h1>
+        </ion-text>
+      </ion-card-title>
+      <ion-card-subtitle>
+        <ion-text color="medium">
+          <p>There are no movies to display</p>
+        </ion-text>
+      </ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      You can try to synchronize new movies or try other filters.
+    </ion-card-content>
+  </ion-card>
+</ng-template>
