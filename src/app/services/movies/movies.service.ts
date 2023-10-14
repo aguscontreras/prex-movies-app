@@ -179,6 +179,7 @@ export class MoviesService {
       tap((genres) =>
         this.storageService.set<string[]>(StorageKeys.Genres, genres)
       ),
+      tap((genres) => this.genres.next(genres)),
       catchError((error) => {
         this.toastService.showDanger({ message: error.message });
         return EMPTY;
