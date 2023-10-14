@@ -7,12 +7,12 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, NavController } from '@ionic/angular';
 import { LogoComponent } from '../../shared/components/logo/logo.component';
 import { AuthService, ToastService } from '../../services';
 import { SignUpReq } from '../../models';
 import { concatMap } from 'rxjs';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { PasswordTogglerComponent } from '../../shared';
 import { PASSWORD_REGEX } from '../../core';
 
@@ -25,6 +25,7 @@ import { PASSWORD_REGEX } from '../../core';
     IonicModule,
     CommonModule,
     FormsModule,
+    RouterModule,
     ReactiveFormsModule,
     LogoComponent,
     PasswordTogglerComponent,
@@ -41,7 +42,8 @@ export class RegisterPage {
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private router: Router,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private navController: NavController
   ) {}
 
   initForm() {
@@ -51,6 +53,10 @@ export class RegisterPage {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.pattern(PASSWORD_REGEX)]],
     });
+  }
+
+  backToPreHome() {
+    this.navController.navigateBack('/pre-home');
   }
 
   async onSubmit() {
