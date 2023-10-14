@@ -72,6 +72,7 @@ export class MoviesService {
         return movies;
       }),
       tap((movies) => this.movies.next(movies)),
+      catchError(() => from(this.retrieveMoviesFromStorage())),
       catchError((error) => {
         this.toastService.showDanger({ message: error.message });
         return EMPTY;
@@ -101,9 +102,10 @@ export class MoviesService {
     try {
       const movies = await this.storageService.get<Movie[]>(StorageKeys.Movies);
       this.movies.next(movies ?? []);
+      return movies ?? [];
     } catch (error) {
       this.movies.next([]);
-      console.error(error);
+      return [];
     }
   }
 
@@ -175,7 +177,11 @@ export class MoviesService {
 
   getGenres(): Observable<string[]> {
     const url = `${this.apiUrl}/genres`;
-    return this.http.get<string[]>(url, this.httpOptions).pipe(
+
+    return from(this.retrieveGenresFromStorage()).pipe(
+      exhaustMap((genres) =>
+        genres ? of(genres) : this.http.get<string[]>(url, this.httpOptions)
+      ),
       tap((genres) =>
         this.storageService.set<string[]>(StorageKeys.Genres, genres)
       ),
@@ -194,9 +200,10 @@ export class MoviesService {
       );
 
       this.genres.next(genres ?? []);
+      return genres;
     } catch (error) {
       this.movies.next([]);
-      console.error(error);
+      return undefined;
     }
   }
 }
