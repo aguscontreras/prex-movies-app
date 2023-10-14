@@ -5,8 +5,11 @@
   "homepage": "https://ionicframework.com/",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --port 8100",
     "build": "ng build",
+    "build:dev": "ng build --configuration development && npx cap sync",
+    "serve:dev": "ng serve --configuration development --port 8100",
+    "start:android": "ng build --configuration development && npx cap run android",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint"
