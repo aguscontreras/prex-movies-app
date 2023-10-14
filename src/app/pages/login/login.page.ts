@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject } from '@angular/core';
+import { Component, DestroyRef, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
@@ -6,6 +6,7 @@ import { LogoComponent, PasswordTogglerComponent } from '../../shared';
 import { AuthService, ToastService } from '../../services';
 import { Router, RouterModule } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { concatMap } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -24,13 +25,15 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 export class LoginPage {
   form = this.initForm();
 
+  @ViewChild(LogoComponent) logo!: LogoComponent;
+
   private readonly destroyRef = inject(DestroyRef);
 
   constructor(
     private formBuilder: FormBuilder,
     private toastService: ToastService,
     private authService: AuthService,
-    private router: Router,
+    private router: Router
   ) {}
 
   initForm() {
@@ -55,7 +58,10 @@ export class LoginPage {
 
     this.authService
       .signIn(email, password)
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(
+        concatMap(() => this.logo.initAnimation()),
+        takeUntilDestroyed(this.destroyRef)
+      )
       .subscribe({
         next: () => this.router.navigate(['/home']),
       });

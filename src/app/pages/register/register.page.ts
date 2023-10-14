@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject } from '@angular/core';
+import { Component, DestroyRef, ViewChild, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import {
@@ -9,9 +9,9 @@ import {
 } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { LogoComponent } from '../../shared/components/logo/logo.component';
-import { AuthService, ToastService, UserService } from '../../services';
+import { AuthService, ToastService } from '../../services';
 import { SignUpReq } from '../../models';
-import { switchMap } from 'rxjs';
+import { concatMap } from 'rxjs';
 import { Router } from '@angular/router';
 import { PasswordTogglerComponent } from '../../shared';
 import { PASSWORD_REGEX } from '../../core';
@@ -33,13 +33,15 @@ import { PASSWORD_REGEX } from '../../core';
 export class RegisterPage {
   form = this.initForm();
 
+  @ViewChild(LogoComponent) logo!: LogoComponent;
+
   private readonly destroyRef = inject(DestroyRef);
 
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private router: Router,
-    private toastService: ToastService,
+    private toastService: ToastService
   ) {}
 
   initForm() {
@@ -73,8 +75,9 @@ export class RegisterPage {
     this.authService
       .signUp(body)
       .pipe(
-        switchMap(() => this.authService.signIn(email, password)),
-        takeUntilDestroyed(this.destroyRef),
+        concatMap(() => this.authService.signIn(email, password)),
+        concatMap(() => this.logo.initAnimation()),
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe({
         next: () => this.router.navigate(['/home']),
