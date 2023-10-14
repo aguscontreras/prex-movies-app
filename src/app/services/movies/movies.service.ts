@@ -78,6 +78,7 @@ export class MoviesService {
         return this.storageService.set(StorageKeys.Movies, savedMovies);
       }),
       exhaustMap(async (movies) => {
+        if (movies.length > 0) ++page;
         await this.storageService.set(StorageKeys.MoviesPage, ++page);
         return movies;
       }),
