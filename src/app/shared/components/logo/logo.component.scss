@@ -1,6 +1,21 @@
-.logo {
-  margin-left: auto;
-  margin-right: auto;
-  width: 10em;
-  height: 10em;
+.wrapper {
+  margin: auto;
+  width: 277px;
+  height: 180px;
+  text-align: center;
+  position: relative;
+
+  ion-img {
+    width: 150px;
+    position: absolute;
+    top: 0;
+
+    &.logo-left {
+      left: -3px;
+    }
+
+    &.logo-right {
+      right: -3px;
+    }
+  }
 }
