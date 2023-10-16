@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule, ModalController, ScrollDetail } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs';
-import { FiltersService, MoviesService } from '../../services';
+import { FiltersService, MoviesService, ToastService } from '../../services';
 import { FilterMoviePipe, MoviesListComponent } from '../../shared';
 import { Movie } from '../../models';
 import { AdvancedFiltersComponent } from '../../shared';
@@ -37,7 +37,8 @@ export class HomePage {
     private readonly moviesService: MoviesService,
     private readonly filtersService: FiltersService,
     private router: Router,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private toastService: ToastService
   ) {}
 
   getMovies(event?: any) {
@@ -50,6 +51,13 @@ export class HomePage {
 
   editMovie(movie: Movie) {
     this.router.navigate([`/details/${movie.id}`]);
+  }
+
+  ionViewDidEnter() {
+    this.toastService.show({
+      message: 'Slide down to get new movies',
+      icon: 'arrow-down-circle-outline',
+    });
   }
 
   async showAdvancedFilters() {
