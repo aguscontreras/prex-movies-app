@@ -18,10 +18,7 @@ import { AuthService, LoaderService } from './services';
   ],
 })
 export class AppComponent {
-  public appPages = [
-    { title: 'Movies', url: '/home', icon: 'videocam' },
-    { title: 'Profile', url: '/profile', icon: 'person' },
-  ];
+  public appPages = [{ title: 'Movies', url: '/home', icon: 'videocam' }];
 
   loading$ = this.loaderService.loading$;
 
