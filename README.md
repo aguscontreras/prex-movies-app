@@ -14,27 +14,34 @@ This is a demo app designed to manage a movie collection. With this app, you can
 
 If you prefer to compile the app on your own, follow these steps:
 
-Open your terminal and run the following command:
+1. Clone the source code form this repo and install its dependencies.
 
-```
-npm run build:dev
-```
+   ```
+   git clone https://github.com/aguscontreras/prex-movies-app.git
+   ```
+   ```
+   npm install
+   ```
+2. Build the app
+   ```
+   npm run build:dev
+   ```
 
-After the build process is complete, open the project in either Android Studio or Xcode.
+3. After the build process is complete, open the project in either Android Studio or Xcode.
 
-To open the project in Android Studio, run:
+   To open the project in Android Studio, run:
 
-```
-npx cap open android
-```
+   ```
+   npx cap open android
+   ```
 
-To open the project in Xcode, run:
+   To open the project in Xcode, run:
 
-```
-npx cap open ios
-```
+   ```
+   npx cap open ios
+   ```
 
-You can then run the app in an emulator or compile the .apk/.ipa file and install it on your mobile device.
+   You can then run the app in an emulator or compile the .apk/.ipa file and install it on your mobile device.
 
 ### Running the app in your web browser
 
