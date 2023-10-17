@@ -3,7 +3,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
-import { AuthService, LoaderService } from './services';
+import { AuthService, LoaderService, UserService } from './services';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -22,9 +22,12 @@ export class AppComponent {
 
   loading$ = this.loaderService.loading$;
 
+  currentUser$ = this.userService.currentUser$;
+
   constructor(
     private readonly loaderService: LoaderService,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    private readonly userService: UserService
   ) {}
 
   onSignOut() {
